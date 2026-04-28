@@ -11,6 +11,7 @@ let timerId = null;
 let startTime = null;
 let hintsUsed = 0;
 let currentDifficulty = 'medium';
+const THEME_STORAGE_KEY = 'sudokuTheme';
 
 function formatTime(seconds) {
   const minutes = String(Math.floor(seconds / 60)).padStart(2, '0');
@@ -21,7 +22,38 @@ function formatTime(seconds) {
 function setMessage(text, type = 'info') {
   const msg = document.getElementById('message');
   msg.innerText = text;
-  msg.style.color = type === 'error' ? '#d32f2f' : type === 'success' ? '#388e3c' : '#1f2937';
+  msg.classList.remove('error', 'success');
+  if (type === 'error') {
+    msg.classList.add('error');
+  } else if (type === 'success') {
+    msg.classList.add('success');
+  }
+}
+
+function applyTheme(theme) {
+  const isDark = theme === 'dark';
+  document.body.classList.toggle('dark-mode', isDark);
+  const toggleBtn = document.getElementById('dark-mode-toggle');
+  if (toggleBtn) {
+    toggleBtn.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+    toggleBtn.setAttribute('aria-pressed', String(isDark));
+  }
+}
+
+function loadTheme() {
+  const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+  if (savedTheme === 'dark' || savedTheme === 'light') {
+    applyTheme(savedTheme);
+    return;
+  }
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(prefersDark ? 'dark' : 'light');
+}
+
+function toggleTheme() {
+  const nextTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+  applyTheme(nextTheme);
+  localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
 }
 
 function setStatus() {
@@ -301,14 +333,6 @@ function renderScores() {
 }
 
 function resetLeaderboard() {
-  if (confirm('Are you sure you want to clear all scores? This cannot be undone.')) {
-    localStorage.removeItem('sudokuTopScores');
-    renderScores();
-    setMessage('Leaderboard reset.', 'info');
-  }
-}
-
-function resetLeaderboard() {
   if (!window.confirm('Clear the Top 10 leaderboard? This cannot be undone.')) {
     return;
   }
@@ -344,9 +368,11 @@ window.addEventListener('load', () => {
   document.getElementById('check-solution').addEventListener('click', checkSolution);
   document.getElementById('hint-button').addEventListener('click', requestHint);
   document.getElementById('reset-leaderboard').addEventListener('click', resetLeaderboard);
+  document.getElementById('dark-mode-toggle').addEventListener('click', toggleTheme);
   document.getElementById('difficulty').addEventListener('change', (event) => {
     currentDifficulty = event.target.value;
   });
+  loadTheme();
   renderScores();
   newGame();
 });

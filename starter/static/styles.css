@@ -1,15 +1,19 @@
 :root {
   --bg: #f3f7fb;
   --surface: #ffffff;
+  --surface-strong: #f8fafc;
+  --panel-border: rgba(45, 65, 86, 0.12);
   --border: #2f4354;
+  --text: #1e293b;
+  --muted: #556874;
   --primary: #1565c0;
   --primary-dark: #0f4c75;
   --success: #2e7d32;
   --warning: #f57c00;
   --danger: #d32f2f;
-  --muted: #556874;
   --cell-bg: #f7fafc;
   --cell-border: #b0bec5;
+  --surface-shadow: rgba(15, 23, 42, 0.08);
 }
 
 * {
@@ -20,9 +24,59 @@ body {
   margin: 0;
   min-height: 100vh;
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  color: #1e293b;
+  color: var(--text);
   background: radial-gradient(circle at top left, #e8f0ff 0%, var(--bg) 45%);
 }
+
+body.dark-mode {
+  --bg: #07101f;
+  --surface: #0f172a;
+  --surface-strong: #111f30;
+  --panel-border: rgba(148, 163, 184, 0.18);
+  --border: #f8fafc;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --primary: #38bdf8;
+  --primary-dark: #0ea5e9;
+  --success: #4ade80;
+  --warning: #fbbf24;
+  --danger: #fb7185;
+  --cell-bg: #0e1f33;
+  --cell-border: #334155;
+  --surface-shadow: rgba(0, 0, 0, 0.36);
+  background: radial-gradient(circle at top left, #1e293b 0%, #030712 45%);
+}
+
+.hero-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.secondary-button {
+  background: #f8f9fa;
+  color: #1f2937;
+  border-color: rgba(15, 23, 42, 0.12);
+}
+
+.secondary-button:hover,
+.secondary-button:focus-visible {
+  background: #e2e8f0;
+}
+
+body.dark-mode .secondary-button {
+  background: #1e293b;
+  color: #e2e8f0;
+  border-color: rgba(148, 163, 184, 0.16);
+}
+
+body.dark-mode .secondary-button:hover,
+body.dark-mode .secondary-button:focus-visible {
+  background: #122135;
+}
+
 
 .app-shell {
   width: min(1200px, 100%);
@@ -56,10 +110,10 @@ body {
 .game-panel,
 .score-panel {
   background: var(--surface);
-  border: 1px solid rgba(45, 65, 86, 0.1);
+  border: 1px solid var(--panel-border);
   border-radius: 18px;
   padding: 20px;
-  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 18px 50px var(--surface-shadow);
 }
 
 .panel-header {
@@ -128,8 +182,8 @@ button:focus-visible {
 }
 
 .status-item {
-  background: #f8fafc;
-  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: var(--surface-strong);
+  border: 1px solid var(--panel-border);
   border-radius: 14px;
   padding: 14px;
   text-align: left;
@@ -149,13 +203,22 @@ button:focus-visible {
 
 .message-box strong {
   font-size: 1rem;
+  color: var(--text);
+}
+
+.message-box strong.success {
+  color: var(--success);
+}
+
+.message-box strong.error {
+  color: var(--danger);
 }
 
 .board {
   display: inline-block;
   padding: 6px;
   border-radius: 18px;
-  background: #ffffff;
+  background: var(--surface);
   border: 4px solid #243b55;
 }
 
@@ -171,7 +234,7 @@ button:focus-visible {
   font-weight: 600;
   letter-spacing: 0.05em;
   text-align: center;
-  color: #1f2937;
+  color: var(--text);
   background: var(--cell-bg);
   margin: 0;
   outline: none;
@@ -236,13 +299,14 @@ button:focus-visible {
 #score-table th,
 #score-table td {
   padding: 12px 10px;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  border-bottom: 1px solid var(--panel-border);
   text-align: left;
   font-size: 0.95rem;
+  color: var(--text);
 }
 
 #score-table tbody tr:nth-child(odd) {
-  background: #f8fafc;
+  background: var(--surface-strong);
 }
 
 @media (max-width: 900px) {
