@@ -301,6 +301,14 @@ function renderScores() {
 }
 
 function resetLeaderboard() {
+  if (confirm('Are you sure you want to clear all scores? This cannot be undone.')) {
+    localStorage.removeItem('sudokuTopScores');
+    renderScores();
+    setMessage('Leaderboard reset.', 'info');
+  }
+}
+
+function resetLeaderboard() {
   if (!window.confirm('Clear the Top 10 leaderboard? This cannot be undone.')) {
     return;
   }

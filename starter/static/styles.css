@@ -217,6 +217,17 @@ button:focus-visible {
   margin-bottom: 14px;
 }
 
+#reset-leaderboard {
+  width: 100%;
+  margin-bottom: 12px;
+  background: #f57c00;
+}
+
+#reset-leaderboard:hover,
+#reset-leaderboard:focus-visible {
+  background: #e65100;
+}
+
 #score-table {
   width: 100%;
   border-collapse: collapse;
